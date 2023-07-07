@@ -199,17 +199,13 @@ public class Architecture {
 
 
 		commandsList.add("incReg"); //15
-		commandsList.add("incMem"); //16
-		commandsList.add("jmp"); //17
-		commandsList.add("jn"); //18
-		commandsList.add("jz"); //19
-		commandsList.add("jnz"); //20
-		commandsList.add("jeq"); //21
-		commandsList.add("jgt"); //22
-		commandsList.add("jlw"); //23
-		commandsList.add("ldi"); //24
-		commandsList.add("read"); //25
-		commandsList.add("store"); //26
+		commandsList.add("jmp"); //16
+		commandsList.add("jn"); //17
+		commandsList.add("jz"); //18
+		commandsList.add("jeq"); //19
+		commandsList.add("jneq"); //20
+		commandsList.add("jgt"); //21
+		commandsList.add("jlw"); //22
 	}
 
 	

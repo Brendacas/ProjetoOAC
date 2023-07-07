@@ -1,16 +1,16 @@
-add %RPG0 %RPG1
-add 1 %RPG1
-add &a %RPG2
-add %RPG3 &a
-move %RPG0 %RPG1
+a
+move 0 %RPG0
 move 1 %RPG1
+move 8 %RPG2
+move 1 %RPG3
+move %RPG3 a
+laco:
+move %RPG1 %RPG3
+add %RPG0 %RPG1
+move %RPG3 %RPG0
+sub %RPG2 a
 move &a %RPG2
-move %RPG3 &a
-sub %RPG0 %RPG1
-sub 1 %RPG1
-sub &a %RPG2
-sub %RPG3 &a
-imul %RPG0 %RPG1
-imul &a %RPG2
-imul %RPG3 &a
+move 1 %RPG3
+move %RPG3 a
+jnz laco
 -1

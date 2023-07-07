@@ -368,126 +368,6 @@ public class TestArchitecture {
 	}
 	
 	@Test
-	public void testRead() {
-		Architecture arch = new Architecture();
-		//storing the number 10 in RPG
-		arch.getIntbus1().put(10);
-		arch.getRPG().internalStore();
-		//testing if RPG stores the number 10
-		arch.getRPG().read();
-		assertEquals(10, arch.getExtbus1().get());
-		
-		//storing the number 25 in the memory, in position 31
-		arch.getExtbus1().put(31);
-		arch.getMemory().store();
-		arch.getExtbus1().put(25);
-		arch.getMemory().store();
-		
-		//storing the number -100 in the memory, in position 25
-		arch.getExtbus1().put(25);
-		arch.getMemory().store();
-		arch.getExtbus1().put(-100);
-		arch.getMemory().store();
-		
-		//PC must be pointing to the address just before the parameter (where is the instruction)
-		arch.getExtbus1().put(30);
-		arch.getPC().store();
-
-		//now we can perform the read method. 
-		//scenery PC=30, mem[31]=25, mem[25]=-100 RPG=10
-		//we will move the the number 25 (stored in the 31th position in the memory) 
-		//into the RPG by using the move command (move 31)
-
-		arch.read();
-		arch.getRPG().internalRead();
-		//the internalbus1 must contain the number -100 (that is stored in position 25)
-		assertEquals(-100, arch.getRPG().getData());
-		
-		//PC must be pointing two positions after its original value
-		arch.getPC().read();
-		assertEquals(32, arch.getExtbus1().get());
-
-	}
-	
-	@Test
-	public void testStore() {
-		Architecture arch = new Architecture();
-
-		//storing the number 25 in the memory, in position 31
-		arch.getMemory().getDataList()[31]=25;
-		
-
-		//now we can perform the store method. 
-		//store X stores, in the position X, the data that is currently in RPG
-		
-		//let's put PC pointing to the position 11
-		arch.getExtbus1().put(11);
-		arch.getPC().store();
-		//now lets put the parameter (the position where the data will be stored) into the position next to PC
-		arch.getMemory().getDataList()[12]=31;
-		
-		//storing the number 155 in RPG
-		arch.getIntbus1().put(155);
-		arch.getRPG().internalStore();
-		
-		//testing if memory contains the number 25 in the 31th position
-		arch.getExtbus1().put(31);
-		arch.getMemory().read();
-		assertEquals(25, arch.getExtbus1().get());
-		
-		//So, PC is pointing to memory[11], memory[12] has 31, memory [31] has 25 and RPG has 155
-		
-		//destroying data in externalbus 1
-		arch.getExtbus1().put(0);
-
-		arch.store();
-
-		//now, memory[31] must be updated from 25 to 155
-		assertEquals(155, arch.getMemory().getDataList()[31]);
-		
-		//PC must be pointing two positions after its original value
-		arch.getPC().read();
-		assertEquals(13, arch.getExtbus1().get());
-
-
-	}
-	
-	@Test
-	public void testLdi() {
-		Architecture arch = new Architecture();
-		//storing the number 10 in RPG
-		arch.getIntbus1().put(10);
-		arch.getRPG().internalStore();
-		
-		//the scenery: PC points to 50, mem[51] (parameter) is -40
-		
-		arch.getExtbus1().put(51);
-		arch.getMemory().store();
-		arch.getExtbus1().put(-40);
-		arch.getMemory().store();
-		
-		arch.getExtbus1().put(50);
-		arch.getPC().store();
-		
-		//destroying data in internalbus 1
-		arch.getIntbus1().put(0);
-
-		//now we can perform the ldi method. 
-		//we will move the the number -40 (immediate value) 
-		//into the rpg
-		arch.ldi();
-		
-		arch.getRPG().read();
-		//the externalbus1 must contains the number 44
-		assertEquals(-40, arch.getExtbus1().get());
-		
-		//PC must be pointing two positions after its original value
-		arch.getPC().read();
-		assertEquals(52, arch.getExtbus1().get());
-
-	}
-	
-	@Test
 	public void testInc() {
 		Architecture arch = new Architecture();
 		//storing the number 10 in RPG
@@ -571,15 +451,29 @@ public class TestArchitecture {
 		
 		Architecture arch = new Architecture();
 		ArrayList<String> commands = arch.getCommandsList();
-		assertTrue("add".equals(commands.get(0)));
-		assertTrue("sub".equals(commands.get(1)));
-		assertTrue("jmp".equals(commands.get(2)));
-		assertTrue("jz".equals(commands.get(3)));
-		assertTrue("jn".equals(commands.get(4)));
-		assertTrue("read".equals(commands.get(5)));
-		assertTrue("store".equals(commands.get(6)));
-		assertTrue("ldi".equals(commands.get(7)));
-		assertTrue("inc".equals(commands.get(8)));
+		assertTrue("addRegReg".equals(commands.get(0)));
+		assertTrue("addMemReg".equals(commands.get(1)));
+		assertTrue("addRegMem".equals(commands.get(2)));
+		assertTrue("addImmReg".equals(commands.get(3)));
+
+		assertTrue("subRegReg".equals(commands.get(4)));
+		assertTrue("subMemReg".equals(commands.get(5)));
+		assertTrue("subRegMem".equals(commands.get(6)));
+		assertTrue("subImmReg".equals(commands.get(7)));
+
+		assertTrue("moveRegReg".equals(commands.get(8)));
+		assertTrue("moveMemReg".equals(commands.get(9)));
+		assertTrue("moveRegMem".equals(commands.get(10)));
+		assertTrue("moveImmReg".equals(commands.get(11)));
+
+		assertTrue("incReg".equals(commands.get(15)));
+		assertTrue("jmp".equals(commands.get(16)));
+		assertTrue("jn".equals(commands.get(17)));
+		assertTrue("jz".equals(commands.get(18)));
+		assertTrue("jeq".equals(commands.get(19)));
+		assertTrue("jneq".equals(commands.get(20)));
+		assertTrue("jgt".equals(commands.get(21)));
+		assertTrue("jlw".equals(commands.get(22)));		
 	}
 	
 	@Test
