@@ -171,6 +171,7 @@ public class Assembler {
 	 * @param lines
 	 */
 	public void parse() {
+		System.out.println(this.arch.getRegistersList());
 		this.lines.forEach(line -> {
 			String[] tokens = line.split(" ");
 			if(tokens.length == 1){
@@ -181,6 +182,7 @@ public class Assembler {
         else variables.add(tokens[0]);
       }
       else try {
+				System.out.println(Integer.toString(findCommandNumber(tokens)));
 				objProgram.add(Integer.toString(findCommandNumber(tokens)));
 				if(!tokens[1].isEmpty()) 
 					if(tokens[0].startsWith("j")) objProgram.add("&" + tokens[1]);
